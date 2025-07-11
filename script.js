@@ -13,17 +13,17 @@ number = Number(no_number);
 console.log(typeof number); //number
 
 //Parse + isNaN();
-const no_number2 = "1o2.34a";
-console.log(isNaN(no_number2));
-//NaN: true --> if value is a number
+const no_number2 = "12.3a4a";
+console.log(isNaN(no_number2)); //true
+//NaN: true --> if value is NO a number
 //NaN: false-->if a number
 
 //check number from left, digit by digit
-number = parseFloat(no_number2);
+number = parseFloat(no_number2); //12.3
 console.log(isNaN(number), number);
 
 //check number from left, digit by digit
-number = parseInt(no_number2);
+number = parseInt(no_number2); //12
 console.log(isNaN(number), number);
 
 //Some operations with string and numbers
@@ -76,7 +76,8 @@ console.log(i2);
 console.log(bio[i2]); //i2 got the position of M, of the last time maca appears on the "bio" string
 
 const i3 = bio.search("z"); //not found is -1
-console.log(i3);
+const i33 = bio.search(/maca/i); //make it case insensitive
+console.log(i3, i33);
 
 //CharAt, [], split
 let look = bio.charAt[1];
@@ -94,8 +95,9 @@ split1 = bio.split("Maca"); //split in Maca, but Maca disappears
 console.log(split1); //Maca is 2twice so the final array has 3 elements
 
 //slice, substring       //substr--> depricated
-let slice1 = bio.slice(0, 5); //take string from 0 to 4, 5 is not included (5 is the length)
+let slice1 = bio.slice(1, 4); //take string from 1 to 5 (5 is not included)
 console.log(slice1);
+console.log(bio); //keeps the original string
 
 slice1 = bio.slice(0); //takes everything from 0 to final
 console.log(slice1);
@@ -112,17 +114,18 @@ console.log(sub1); //same than slice but slice better, allows negatives
 let replace1 = bio.replace("chile", "Chile"); //only the first "chile"
 replace1 = replace1.replaceAll("i", "I");
 console.log(replace1);
+console.log(bio); //keep the original string
 
 //trim only trims spaces at the beggining and end
 console.log(replace1.length);
-replace1 = replace1.trim(); //new trimmed string
-console.log(replace1.length);
+let replace2 = replace1.trim(); //new trimmed string
+console.log(replace2.length);
 
 //to UPPER OR LOWERCASE
-replace1 = replace1.toLocaleLowerCase();
-console.log(replace1);
-replace1 = replace1.toLocaleUpperCase();
-console.log(replace1);
+replace2 = replace2.toLocaleLowerCase();
+console.log(replace2);
+replace2 = replace2.toLocaleUpperCase();
+console.log(replace2);
 
 console.log("----------------OPERATIONS IN ARRAY----------------");
 //Array properties //referential datatype
@@ -147,11 +150,11 @@ arg = [
 ];
 console.log(arg);
 
-let i4 = arg[5];
+let i4 = arg[5]; //the array inside
 i4 = arg[5][1];
 console.log(i4); //456
 
-i4 = arg[6]["skills"][0];
+i4 = arg[6]["skills"][0]; //Object inside
 console.log(i4); //AI
 
 i4 = arg[6].skills[1];
@@ -197,7 +200,7 @@ console.log(fruits); //['apple', 'watermelon', 'Banana', 'mango']
 //Splice, allows u to select only the items you want, modify the original array
 let fruits2 = fruits.splice(2, 2); //new Array with items 2,3 (from index 2, 2 values)
 console.log(fruits2); // ['Banana', 'mango']
-console.log(fruits); //['apple', 'watermelon']
+console.log(fruits); //['apple', 'watermelon'] //only the remainings
 
 //Concatenate arrays: result = a.concat(b, c); //concatenate a,b,c arrays
 let conc_fruits = fruits.concat(fruits2);
@@ -206,6 +209,7 @@ console.log(conc_fruits); //['apple', 'watermelon', 'Banana', 'mango']
 //Slice, read data but doesn't modify the original
 let my_slice = conc_fruits.slice(1, 3);
 console.log(my_slice); //['watermelon', 'Banana']
+console.log(conc_fruits); //original doesn't change
 
 //join --> Array to String
 const join = fruits.join("-");
@@ -216,8 +220,12 @@ const join_split = fruits.join("-").split("-");
 console.log(join_split);
 
 //Sort Array ---This one works good only for numbers
-let sort1 = conc_fruits.sort((a, b) => b - a); //descendant -not working
-let sort2 = conc_fruits.sort((a, b) => a - b); //ascendant -not working
+//change the original array
+const numbers = [1, 2, 56, -7, -34, 3, 2, 0];
+let sort1 = numbers.slice().sort((a, b) => b - a); //descendant -ONLY FOR NUMBERS
+let sort2 = numbers.slice().sort((a, b) => a - b); //ascendant -ONLY FOR NUMBERS
+console.log(sort1); //[56, 3, 2, 2, 1, 0, -7, -34]
+console.log(sort2); // [-34, -7, 0, 1, 2, 2, 3, 56]
 
 sort1 = conc_fruits.slice().sort(); // A–Z (ASCII-based)
 sort2 = conc_fruits.slice().sort().reverse(); // Z–A (ASCII-based)
@@ -230,10 +238,10 @@ sort1 = conc_fruits.slice().sort((a, b) => b.localeCompare(a)); //Z-A
 console.log(sort1); // ['watermelon', 'mango', 'Banana', 'apple']
 console.log(sort2); // ['apple', 'Banana', 'mango', 'watermelon']
 
-//COnvert array to String (adds a comma in between)
+//Convert array to String (adds a comma ONLY in between)
 // doesnt change the original array
-fruits2.toString();
-console.log(fruits2.toString());
+fruits2.toString(); //Only comma, cannot choose another
+console.log(fruits2.toString()); //Banana,mango
 
 //mutates array to Reverse - turn around the elements
 fruits.reverse(); // change the array
@@ -266,6 +274,12 @@ for (let item of fruits) {
 //doesnt return anything
 fruits.forEach((item, i) => {
   console.log(item, i);
+});
+fruits.forEach((item, i, arr) => {
+  console.log(`Fruit: ${item}, 
+    Index: ${i}, 
+    Full array: ${arr},
+    Length array: ${arr.length}`);
 });
 
 // Map, transform data--> new array without modifying the old one!!!!
